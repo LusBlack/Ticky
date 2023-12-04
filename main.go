@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 	var conferenceName string = "Aries Launch"
@@ -8,7 +11,7 @@ func main() {
 	var remainingTickets uint = 50
 	var bookings [50]string //array
 	var book2 []string      //slice
-	bookings := []string{}
+	//bookings := []string{} //method two of declaring slice
 
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Printf("we have %v tickets left \n", remainingTickets)
@@ -37,6 +40,12 @@ func main() {
 
 		if userTickets <= remainingTickets {
 			book2 = append(book2, firstName+""+lastName) //slice
+
+			firtNames := []string{}
+			for _, book2 := range book2 {
+				var names = strings.Fields(book2) //splits the string with white space as separator
+				firstNames = append(firstNames, names[0])
+			}
 			remainingTickets = remainingTickets - userTickets
 			fmt.Printf("tickets left: %v \n", remainingTickets)
 			fmt.Printf("Thank you for booking, %v. You will receive a confirmation email at %v. See you at the Con\n", firstName, email)
