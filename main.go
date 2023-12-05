@@ -41,18 +41,19 @@ func main() {
 		if userTickets <= remainingTickets {
 			book2 = append(book2, firstName+""+lastName) //slice
 
-			firtNames := []string{}
+			firstNames := []string{}
 			for _, book2 := range book2 {
 				var names = strings.Fields(book2) //splits the string with white space as separator
 				firstNames = append(firstNames, names[0])
+
 			}
+			fmt.Printf("The first names of ticket holders: %v\n", firstNames)
 			remainingTickets = remainingTickets - userTickets
-			fmt.Printf("tickets left: %v \n", remainingTickets)
 			fmt.Printf("Thank you for booking, %v. You will receive a confirmation email at %v. See you at the Con\n", firstName, email)
-			bookings[0] = firstName + " " + lastName
 
 		} else {
 			fmt.Println("Please pick a valid number, we do not have that many tickets")
+			break
 		}
 
 	}
