@@ -42,9 +42,11 @@ func main() {
 			book2 = append(book2, firstName+""+lastName) //slice
 
 			firstNames := []string{}
-			for _, book2 := range book2 {
-				var names = strings.Fields(book2) //splits the string with white space as separator
-				firstNames = append(firstNames, names[0])
+			for _, booking := range book2 {
+				var names = strings.Fields(booking) //splits the string with white space as separator
+				if len(names) > 0 {
+					firstNames = append(firstNames, names[0])
+				}
 
 			}
 			fmt.Printf("The first names of ticket holders: %v\n", firstNames)
