@@ -3,15 +3,23 @@ package main
 import (
 	"Ticky/helper"
 	"fmt"
-	"strings"
 )
 
 const conferenceTickets uint = 50
 
 var conferenceName string = "Aries Launch"
 var remainingTickets uint = 50
-var book2 []string //slice
+var book2 = make([]UserData, 0)
+
+//var book2 = make([]map[string]string, 0) //slice
 //bookings := []string{} //method two of declaring slice
+
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
+}
 
 func main() {
 
@@ -27,7 +35,8 @@ func main() {
 
 		//conditionals for response
 		if isValidName && isValidEmail && isValidTicketNumber {
-			bookTicket()
+			bookTicket(userTickets, firstName, lastName, email)
+			sendTicket(userTickets, firstName, lastName, email)
 
 			fNames := getFNames()
 			fmt.Printf("The first names of bookings are: %v\n", fNames)
@@ -61,10 +70,8 @@ func getFNames() {
 	//formatting user details
 	firstNames := []string{}
 	for _, booking := range book2 {
-		var names = strings.Fields(booking) //splits the string with white space as separator
-		if len(names) > 0 {
-			firstNames = append(firstNames, names[0])
-		}
+		firstNames = append(firstNames, booking.firstName)
+
 	}
 	return firstNames
 }
@@ -96,8 +103,32 @@ func getUserInput() (string, string, uint, string) {
 
 func bookTicket(userTickets uint, book2 []string, firstName string, lastName string) {
 	remainingTickets = remainingTickets - userTickets
-	book2 = append(book2, firstName+""+lastName) //slice
+
+	//map for user
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
+	}
+	/*userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	//converting uint to string as maps only take one datatype
+	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)*/
+
+	book2 = append(book2, userData)
 
 	fmt.Printf("Thank you for booking, %v. You will receive a confirmation email at %v. See you at the Con\n", firstName, email)
+
+	func sendTicket(userTickets uint, firstName string, lastName string, email string) {
+		time.Sleep(10 * time.Second)
+		var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+		fmt.Println("#################")
+		fmt.Printf("Sending ticket:\n %v \nto email address %v\n", ticket, email)
+		fmt.Println("#################")
+
+
+	}
 
 }
