@@ -21,6 +21,8 @@ type UserData struct {
 	numberOfTickets uint
 }
 
+var wg = sync.waitGroup{}
+
 func main() {
 
 	greetings()
@@ -35,8 +37,12 @@ func main() {
 
 		//conditionals for response
 		if isValidName && isValidEmail && isValidTicketNumber {
+			
 			bookTicket(userTickets, firstName, lastName, email)
-			sendTicket(userTickets, firstName, lastName, email)
+
+			wg.Add(1)
+			go sendTicket(userTickets, firstName, lastName, email)
+
 
 			fNames := getFNames()
 			fmt.Printf("The first names of bookings are: %v\n", fNames)
@@ -57,6 +63,7 @@ func main() {
 				fmt.Println("Please input a valid ticket number")
 			}
 		}
+		wg.Wait()
 	}
 }
 
@@ -127,6 +134,7 @@ func bookTicket(userTickets uint, book2 []string, firstName string, lastName str
 		fmt.Println("#################")
 		fmt.Printf("Sending ticket:\n %v \nto email address %v\n", ticket, email)
 		fmt.Println("#################")
+		wg.Done()
 
 
 	}
